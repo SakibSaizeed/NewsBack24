@@ -1,0 +1,44 @@
+import React, { useState } from "react";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  makeStyles,
+} from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    maxWidth: 300,
+  },
+}));
+
+const MultiInputFilter = () => {
+  const classes = useStyles();
+  const [selectedValues, setSelectedValues] = useState([]);
+
+  const handleChange = (event) => {
+    setSelectedValues(event.target.value);
+    console.log(event.target.value);
+  };
+
+  return (
+    <FormControl className={classes.formControl}>
+      <InputLabel id="multi-input-filter-label">Filter</InputLabel>
+      <Select
+        labelId="multi-input-filter-label"
+        multiple
+        value={selectedValues}
+        onChange={handleChange}
+      >
+        <MenuItem value={1}>Option 1</MenuItem>
+        <MenuItem value={2}>Option 2</MenuItem>
+        <MenuItem value={3}>Option 3</MenuItem>
+      </Select>
+    </FormControl>
+  );
+};
+
+export default MultiInputFilter;

@@ -1,0 +1,69 @@
+import React, { useState, useEffect } from 'react';
+import { DataGrid } from '@material-ui/data-grid';
+
+const columns = [
+  { field: 'applicationSummary', headerName: 'Application Summary', width: 200 },
+  { field: 'jan', headerName: 'Jan', width: 100 },
+  { field: 'feb', headerName: 'Feb', width: 100 },
+  { field: 'mar', headerName: 'Mar', width: 100 },
+  { field: 'apr', headerName: 'Apr', width: 100 },
+  { field: 'may', headerName: 'May', width: 100 },
+  { field: 'jun', headerName: 'Jun', width: 100 },
+  { field: 'jul', headerName: 'Jul', width: 100 },
+  { field: 'aug', headerName: 'Aug', width: 100 },
+  { field: 'sept', headerName: 'Sept', width: 100 },
+  { field: 'oct', headerName: 'Oct', width: 100 },
+  { field: 'nov', headerName: 'Nov', width: 100 },
+  { field: 'dec', headerName: 'Dec', width: 100 },
+  { field: 'total', headerName: 'Total', width: 100 },
+];
+
+const fetchApiData = async () => {
+  // fetch API data here and return as an array of objects
+  const response = await fetch('https://example.com/api/data');
+  const data = await response.json();
+  return data;
+};
+
+const calculateTotal = (row) => {
+  // calculate total value for each row
+  return Object.values(row).slice(1).reduce((acc, curr) => acc + curr);
+};
+
+const AppSummaryTable = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const apiData = await fetchApiData();
+      setData(apiData);
+    };
+    fetchData();
+  }, []);
+
+  const rows = data.map((row, index) => ({
+    id: index + 1,
+    applicationSummary: row.applicationSummary,
+    jan: row.jan,
+    feb: row.feb,
+    mar: row.mar,
+    apr: row.apr,
+    may: row.may,
+    jun: row.jun,
+    jul: row.jul,
+    aug: row.aug,
+    sept: row.sept,
+    oct: row.oct,
+    nov: row.nov,
+    dec: row.dec,
+    total: calculateTotal(row),
+  }));
+
+  return (
+    <div style={{ height: 500, width: '100%' }}>
+      <DataGrid rows={rows} columns={columns} pageSize={10} />
+    </div>
+  );
+};
+
+export default AppSummaryTable;
